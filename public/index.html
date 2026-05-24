@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Offline Spike" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Offline PWA Spike</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">TypeScript + Service Worker</p>
+        <h1>Offline PWA validation spike</h1>
+        <p class="intro">
+          Use this page to verify that the app shell, cached data, and locally stored state still
+          work after installing the app and switching Safari into offline mode.
+        </p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Status</h2>
+          <dl class="status-list">
+            <div>
+              <dt>Connectivity</dt>
+              <dd id="network-status">Checking…</dd>
+            </div>
+            <div>
+              <dt>Display mode</dt>
+              <dd id="display-mode">Checking…</dd>
+            </div>
+            <div>
+              <dt>Service worker</dt>
+              <dd id="service-worker-status">Registering…</dd>
+            </div>
+            <div>
+              <dt>Visits</dt>
+              <dd id="visit-count">0</dd>
+            </div>
+            <div>
+              <dt>Last visit</dt>
+              <dd id="last-visit">—</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="card">
+          <h2>Offline interaction</h2>
+          <p class="hint">
+            Tap the button while online, then again after switching to offline mode. The count is
+            stored locally so it should survive reloads and installation.
+          </p>
+          <button id="counter-button" class="primary-button" type="button">
+            Increment offline-safe counter
+          </button>
+          <p id="counter-value" class="metric">Counter: 0</p>
+
+          <label class="notes-label" for="notes-input">Offline notes</label>
+          <textarea
+            id="notes-input"
+            rows="5"
+            placeholder="Write a note here, install the app, then reload offline."
+          ></textarea>
+        </article>
+
+        <article class="card">
+          <h2>Cached asset probe</h2>
+          <p class="hint">
+            The button fetches a small local JSON file. Once the service worker is active, the same
+            data should still load while offline.
+          </p>
+          <button id="probe-button" class="secondary-button" type="button">
+            Load cached offline probe
+          </button>
+          <pre id="probe-output">Not loaded yet.</pre>
+        </article>
+
+        <article class="card">
+          <h2>Suggested iOS Safari test flow</h2>
+          <ol class="checklist">
+            <li>Open the deployed page once while online.</li>
+            <li>Wait until the service worker status shows ready.</li>
+            <li>Use Share → Add to Home Screen.</li>
+            <li>Open the installed app and interact with the counter and notes.</li>
+            <li>Disable network and reopen the installed app.</li>
+            <li>Confirm the page shell, probe, counter, and notes still work offline.</li>
+          </ol>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "message": "This response is cacheable and should remain available offline after the service worker is installed.",
+  "checkpoints": [
+    "App shell still loads",
+    "Counter still increments",
+    "Notes are still visible",
+    "This JSON still fetches offline"
+  ]
+}

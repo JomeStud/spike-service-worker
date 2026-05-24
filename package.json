@@ -1,0 +1,25 @@
+{
+  "name": "spike-service-worker",
+  "version": "1.0.0",
+  "description": "Simple TypeScript PWA spike for validating offline behavior on GitHub Pages and iOS Safari",
+  "scripts": {
+    "clean": "rm -rf docs",
+    "build": "npm run clean && mkdir -p docs && cp -R public/. docs/ && tsc --project tsconfig.json && tsc --project tsconfig.service-worker.json",
+    "test": "tsc --noEmit --project tsconfig.json && tsc --noEmit --project tsconfig.service-worker.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jannik1020/spike-service-worker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Jannik1020/spike-service-worker/issues"
+  },
+  "homepage": "https://jannik1020.github.io/spike-service-worker/",
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
