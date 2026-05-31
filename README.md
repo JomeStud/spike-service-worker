@@ -2,51 +2,42 @@
 
 A minimal offline-capable PWA spike for service worker caching, local notifications, and mobile install testing.
 
-## PC setup
+## Dev setup
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+### 1. Install dependencies
 
-2. Build the app:
-   ```bash
-   npm run build
-   ```
+```bash
+npm install
+```
 
-3. Serve the generated `dist/` folder with a static server:
-   ```bash
-   npx serve dist
-   ```
-   or
-   ```bash
-   python3 -m http.server --directory dist 4173
-   ```
+### 2. Generate a local TLS certificate (once)
 
-4. Open the app in your browser:
-   ```text
-   http://localhost:4173
-   ```
+Install [mkcert](https://github.com/FiloSottile/mkcert), then:
 
-`localhost` is treated as a secure context, so service worker registration and notifications will work for local testing.
+```bash
+mkcert -install
+mkcert localhost 127.0.0.1 ::1 $(ipconfig getifaddr en0)
+```
 
-## Usage on Android
+This creates `localhost+2.pem` and `localhost+2-key.pem` in the project root (gitignored).
 
-- Open the app URL in Chrome or another supported browser.
-- Allow notifications when prompted.
-- Use the notification card to send a custom test notification.
-- Install the app to the home screen if you want to test the PWA install flow.
-- You can then reload the installed app while offline and verify the cached app shell still works.
+### 3. Build and serve
 
-## Usage on iOS
+```bash
+npm run build
+npx http-server dist -S -C localhost+2.pem -K localhost+2-key.pem -p 8443
+```
 
-- Open the app URL in Safari.
-- Use Share → Add to Home Screen to install the PWA.
-- Once installed, reopen the app from the home screen.
-- If notification permission is available on your iOS version, allow it and send a test notification.
-- The app is designed to keep the shell and local data working when the network is unavailable.
+Open `https://localhost:8443` in a desktop browser, or `https://<your-local-ip>:8443` from a phone on the same Wi-Fi.
 
-## Notes
+### 4. Trust the certificate on iOS (once)
 
-- This repo builds into `dist/` for local use and deployment.
-- If you want a real HTTPS origin for mobile testing, use a local TLS server or host the built app on a secure site.
+1. AirDrop `"$(mkcert -CAROOT)/rootCA.pem"` to the iPhone.
+2. Open it — install the profile via Settings → General → VPN & Device Management.
+3. Go to Settings → General → About → Certificate Trust Settings and enable full trust for the mkcert CA.
+
+### 5. Trust the certificate on Android (once)
+
+1. Copy `"$(mkcert -CAROOT)/rootCA.pem"` to the device (cable, AirDrop, or Google Drive).
+2. Go to Settings → Security → More security settings → Encryption & credentials → Install a certificate → CA certificate.
+3. Select the file and confirm. Chrome will now trust the mkcert CA.

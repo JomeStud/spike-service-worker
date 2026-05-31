@@ -8,6 +8,7 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./offline-data.json",
   "./main.js",
+  "./notification.js",
   "./icons/logo.svg"
 ];
 
