@@ -5,9 +5,9 @@
     "moduleResolution": "bundler",
     "strict": true,
     "lib": ["ES2020", "DOM"],
-    "outDir": "docs",
+    "outDir": "dist",
     "rootDir": "src",
     "skipLibCheck": true
   },
-  "include": ["src/main.ts"]
+  "include": ["src/**/*.ts"]
 }

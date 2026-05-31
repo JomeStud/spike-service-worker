@@ -8,9 +8,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Offline Spike" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link rel="icon" href="./icons/logo.svg" type="image/svg+xml" />
+    <link rel="shortcut icon" href="./icons/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css" />
-    <title>Offline PWA Spike</title>
+    <title>SubGuard Test</title>
   </head>
   <body>
     <main class="app-shell">
@@ -82,15 +86,19 @@
         </article>
 
         <article class="card">
-          <h2>Suggested iOS Safari test flow</h2>
-          <ol class="checklist">
-            <li>Open the deployed page once while online.</li>
-            <li>Wait until the service worker status shows ready.</li>
-            <li>Use Share → Add to Home Screen.</li>
-            <li>Open the installed app and interact with the counter and notes.</li>
-            <li>Disable network and reopen the installed app.</li>
-            <li>Confirm the page shell, probe, counter, and notes still work offline.</li>
-          </ol>
+          <h2>Notifications</h2>
+          <p class="hint">
+            Enter a custom message and send a test notification from the service worker.
+          </p>
+          <textarea
+            id="notification-text"
+            rows="3"
+            placeholder="Enter notification text here"
+          ></textarea>
+          <button id="notification-button" class="primary-button" type="button">
+            Send test notification
+          </button>
+          <p id="notification-status" class="notification-status">Notification permission not requested yet.</p>
         </article>
       </section>
     </main>

@@ -1,4 +1,5 @@
 /// <reference lib="dom" />
+import { initNotificationControls, setNotificationServiceWorkerRegistration } from "./notification.js";
 const STORAGE_KEY = "offline-pwa-spike-state";
 const elements = {
     networkStatus: document.querySelector("#network-status"),
@@ -56,7 +57,7 @@ const updateStatus = (message) => {
 const registerServiceWorker = async () => {
     if (!("serviceWorker" in navigator)) {
         updateStatus("Not supported in this browser");
-        return;
+        return null;
     }
     try {
         const registration = await navigator.serviceWorker.register("./service-worker.js");
@@ -77,10 +78,13 @@ const registerServiceWorker = async () => {
             });
         });
         await navigator.serviceWorker.ready;
+        setNotificationServiceWorkerRegistration(registration);
         updateStatus("Ready");
+        return registration;
     }
     catch {
         updateStatus("Registration failed");
+        return null;
     }
 };
 const loadProbe = async () => {
@@ -129,5 +133,5 @@ elements.probeButton?.addEventListener("click", () => {
 window.addEventListener("online", render);
 window.addEventListener("offline", render);
 window.matchMedia("(display-mode: standalone)").addEventListener("change", render);
+void initNotificationControls();
 void registerServiceWorker();
-export {};

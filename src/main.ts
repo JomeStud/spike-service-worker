@@ -1,5 +1,7 @@
 /// <reference lib="dom" />
 
+import { initNotificationControls, setNotificationServiceWorkerRegistration } from "./notification.js";
+
 export {};
 
 declare global {
@@ -82,10 +84,10 @@ const updateStatus = (message: string): void => {
   elements.serviceWorkerStatus!.textContent = message;
 };
 
-const registerServiceWorker = async (): Promise<void> => {
+const registerServiceWorker = async (): Promise<ServiceWorkerRegistration | null> => {
   if (!("serviceWorker" in navigator)) {
     updateStatus("Not supported in this browser");
-    return;
+    return null;
   }
 
   try {
@@ -107,9 +109,12 @@ const registerServiceWorker = async (): Promise<void> => {
     });
 
     await navigator.serviceWorker.ready;
+    setNotificationServiceWorkerRegistration(registration);
     updateStatus("Ready");
+    return registration;
   } catch {
     updateStatus("Registration failed");
+    return null;
   }
 };
 
@@ -167,4 +172,5 @@ window.addEventListener("online", render);
 window.addEventListener("offline", render);
 window.matchMedia("(display-mode: standalone)").addEventListener("change", render);
 
+void initNotificationControls();
 void registerServiceWorker();

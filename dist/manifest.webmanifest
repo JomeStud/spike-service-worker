@@ -1,6 +1,6 @@
 {
-  "name": "Offline PWA Spike",
-  "short_name": "Offline Spike",
+  "name": "SubGuard Test",
+  "short_name": "SubGuard",
   "description": "Minimal TypeScript PWA for validating offline behavior on GitHub Pages and iOS Safari.",
   "start_url": "./",
   "scope": "./",
@@ -17,6 +17,11 @@
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "./icons/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }

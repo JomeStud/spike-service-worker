@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 
-const CACHE_NAME = "offline-pwa-spike-v1";
+const CACHE_NAME = "offline-pwa-spike-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,9 +8,7 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./offline-data.json",
   "./main.js",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/apple-touch-icon.png"
+  "./icons/logo.svg"
 ];
 
 const serviceWorker = self as unknown as ServiceWorkerGlobalScope;
@@ -68,7 +66,46 @@ self.addEventListener("fetch", (event) => {
       })
       .catch(async () => {
         const cachedResponse = await caches.match(request);
-        return cachedResponse ?? (await caches.match("./index.html")) ?? Response.error();
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        // Legacy icon requests — serve the single SVG logo instead of 404
+        const pathname = requestUrl.pathname;
+        if (
+          pathname.endsWith("/icons/icon-512.png") ||
+          pathname.endsWith("/icons/icon-192.png") ||
+          pathname.endsWith("/icons/apple-touch-icon.png")
+        ) {
+          const logo = await caches.match("./icons/logo.svg");
+          if (logo) {
+            return logo;
+          }
+          try {
+            return await fetch("./icons/logo.svg");
+          } catch {
+            return (await caches.match("./index.html")) ?? Response.error();
+          }
+        }
+
+        return (await caches.match("./index.html")) ?? Response.error();
+      })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  const notificationEvent = event as NotificationEvent;
+  notificationEvent.notification.close();
+
+  notificationEvent.waitUntil(
+    serviceWorker.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        const focusedClient = clients.find((client) => "focus" in client) as WindowClient | undefined;
+        if (focusedClient) {
+          return focusedClient.focus();
+        }
+        return serviceWorker.clients.openWindow("./");
       })
   );
 });

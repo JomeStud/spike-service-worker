@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Simple TypeScript PWA spike for validating offline behavior on GitHub Pages and iOS Safari",
   "scripts": {
-    "clean": "rm -rf docs",
-    "build": "npm run clean && mkdir -p docs && cp -R public/. docs/ && tsc --project tsconfig.json && tsc --project tsconfig.service-worker.json",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && mkdir -p dist && cp -R public/. dist/ && tsc --project tsconfig.json && tsc --project tsconfig.service-worker.json",
     "test": "tsc --noEmit --project tsconfig.json && tsc --noEmit --project tsconfig.service-worker.json"
   },
   "repository": {
